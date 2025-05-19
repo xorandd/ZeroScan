@@ -19,7 +19,7 @@ int check_ports(const char *ip, int port) {
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
-        printf("\033[91m[!]\033[0m Failed to create socket\n");
+        printf( BRIGHT_RED "[!]" RESET_COLOR " Failed to create socket\n");
         return 0;
     }
 

@@ -4,6 +4,7 @@
 #include <string.h>
 #include "messages.h"
 #include "scanner.h"
+#include "colors.h"
 #include "utils.h"
 
 int main(int argc, char* argv[]){
@@ -16,7 +17,7 @@ int main(int argc, char* argv[]){
     }
 
     if(argc != 4){
-        printf("\033[91m[!]\033[0m ERROR. Some arguments are missing\n");
+        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing\n");
         program_usage();
         return 1;
     }
@@ -26,18 +27,18 @@ int main(int argc, char* argv[]){
     int end_port = atoi(argv[3]);
 
     if(validate_ip(ip) != 0){
-        printf("\033[91m[!]\033[0m ERROR. Incorrect IP format. \n");
+        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Incorrect IP format. \n");
         program_usage();
         return 1;
     }
     
     if(end_port < start_port){
-        printf("\033[91m[!]\033[0m ERROR. end port <= start port, enter valid values.\n");
+        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. end port <= start port, enter valid values.\n");
         program_usage();
         return 1;
     }
     if(start_port < 0 || end_port > 65535){
-        printf("\033[91m[!]\033[0m ERROR. port range: 0-65535\n");
+        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. port range: 0-65535\n");
         program_usage();
         return 1;
     }
@@ -48,7 +49,7 @@ int main(int argc, char* argv[]){
         scan_ports(ip, start_port, end_port);
     }
     else{
-        printf("\033[91m[!]\033[0m Host is down.\n");
+        printf( BRIGHT_RED "[!]" RESET_COLOR " Host is down.\n");
     }
 
     return 0;
