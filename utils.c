@@ -15,8 +15,8 @@ int validate_ip(const char *ip) {
     regfree(&regex);
 
     if (regRes == 0) {
-        return 0;
+        return 1; //valid ip
     } else {
-        return 1;
+        return 0; //invalid ip
     }
 }

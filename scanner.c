@@ -41,16 +41,16 @@ int check_ports(const char *ip, int port) {
         getsockopt(sock, SOL_SOCKET, SO_ERROR, &result, &len);
         if (result == 0) {
             close(sock);
-            return 0;
+            return 1;
         } 
         else {
             close(sock);
-            return 1;
+            return 0;
         }
     }
 
     close(sock);
-    return 1;
+    return 0;
 }
 
 
@@ -58,7 +58,7 @@ void scan_ports(const char *ip, int start_port, int end_port){
     printf(BRIGHT_GREEN "[*]" RESET_COLOR "Scanning ports on %s \n\n", ip);
 
     for(int port = start_port; port <= end_port; port++){
-        if(check_ports(ip, port) == 0){
+        if(check_ports(ip, port)){
             printf("Open port: %d\n", port);
         }
     }

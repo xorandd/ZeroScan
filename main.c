@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
     int start_port = atoi(argv[2]);
     int end_port = atoi(argv[3]);
 
-    if(validate_ip(ip) != 0){
+    if(validate_ip(ip) != 1){
         printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Incorrect IP format. \n");
         program_usage();
         return 1;
