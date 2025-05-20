@@ -18,13 +18,15 @@ C based port scanner
 ## ⌨️ Usage
 
 ```console
-./zeroscan <ip_address> <start_port> <end_port>
+zeroscan <ip_address> -p <start_port> <end_port> -t <num_threads>
+zeroscan <ip_address> -p <port>
 ```
 
 ### Example
 
 ```console
-./zeroscan 192.168.1.1 20 500
+zeroscan 127.0.0.1 -p 1 1000 -t 20
+zeroscan 127.0.0.1 -p 3306
 ```
 
 ### Print help menu
@@ -52,10 +54,9 @@ To install package run `dpkg -i <downloaded_file>`
 To uninstall run `dpkg -r zeroscan`
 
 ## 📝 Notes
-- This port scanner is single threaded
 - Scans only TCP ports, no UDP
 - Made specifically for linux (POSIX API)
-- Good enough for basic scanning, for more larger scans threaded or asynchronous features would be better
+- Good enough for basic scanning, for more larger scans asynchronous feature would be better
 
 
 
