@@ -7,14 +7,15 @@
 
 ```
 
-C based single threaded port scanner using raw sockets
+C based port scanner
 
-## Features
+## ✨ Features
 - IP validation using regex
 - Host pinging before scannning
 - Shows opened ports in real-time
+- Support multi-threading
 
-## Usage
+## ⌨️ Usage
 
 ```console
 ./zeroscan <ip_address> <start_port> <end_port>
@@ -32,20 +33,25 @@ C based single threaded port scanner using raw sockets
 ./zeroscan -h
 ```
 
-## Compiling
+## ✨ Installation
+
+### 1. Compiling from source
 
 Use `Makefile` for compilation
-```console
+```
+git clone https://github.com/xorandd/ZeroScan
+cd ZeroScan
 make
 ```
+### 2. Debian / Kali
 
-To remove .o files:
+Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/releases)
 
-```console
-make clean
-```
+To install package run `dpkg -i <downloaded_file>`
 
-## Notes
+To uninstall run `dpkg -r zeroscan`
+
+## 📝 Notes
 - This port scanner is single threaded
 - Scans only TCP ports, no UDP
 - Made specifically for linux (POSIX API)
