@@ -23,7 +23,7 @@ C based single threaded port scanner using raw sockets
 ### Example
 
 ```console
-./zeroscan 192.168.1.1 20-500
+./zeroscan 192.168.1.1 20 500
 ```
 
 ### Print help menu
