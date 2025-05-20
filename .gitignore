@@ -1,2 +1,4 @@
 *.o
 zeroscan
+debian-package-build/
+debian-package-versions/

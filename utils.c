@@ -1,5 +1,7 @@
 #include <regex.h>
 #include <stddef.h>
+#include <string.h>
+#include <stdlib.h>
 #include "utils.h"
 
 int validate_ip(const char *ip) {
@@ -19,4 +21,25 @@ int validate_ip(const char *ip) {
     } else {
         return 0; //invalid ip
     }
+}
+
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *num_threads){
+    for (int i = 1; i < argc; i++){
+        if (validate_ip(argv[i])){
+            *ip = argv[i];
+        }
+        else if (strcmp(argv[i], "-p") == 0 && i+1 < argc){
+            *start_port = atoi(argv[++i]);
+            if (i+1 < argc && argv[i+1][0] != '-'){
+                *end_port = atoi(argv[++i]);
+            }
+            else{
+                *end_port = *start_port;
+            }
+        }
+        else if (strcmp(argv[i], "-t") == 0 && i+1 < argc){
+            *num_threads = atoi(argv[++i]);
+        }
+    }
+    return 0;
 }

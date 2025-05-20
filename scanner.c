@@ -55,8 +55,6 @@ int check_ports(const char *ip, int port) {
 
 
 void scan_ports(const char *ip, int start_port, int end_port){
-    printf(BRIGHT_GREEN "[*]" RESET_COLOR "Scanning ports on %s \n\n", ip);
-
     for(int port = start_port; port <= end_port; port++){
         if(check_ports(ip, port)){
             printf("Open port: %d\n", port);

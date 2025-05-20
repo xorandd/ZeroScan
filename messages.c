@@ -16,12 +16,14 @@ LIGHT_GRAY "---------------------------------------------\n" RESET_COLOR
 }
 
 void program_usage(){
-    printf("[*] Usage example: ");
-    printf(" <ip_address> <start_port> <end_port> \n");
+    printf( GREEN "[*]" RESET_COLOR " Usage example:\n");
+    printf("    zeroscan 127.0.0.1 -p 1 1000 -t 20\n");
+    printf("    zeroscan 127.0.0.1 -p 3306\n");
+    
     printf("\n");
-    printf("Parameters:\n");
-    printf("    <ip_address>  :  IP address\n");
-    printf("    <start_port>  :  Starting port\n");
-    printf("     <end_port>   :  Ending port\n");
-    printf(BRIGHT_RED "[!]" RESET_COLOR " Ports should be withing range of 0-65535\n");
+    
+    printf( GREEN "[*]" RESET_COLOR " Flags:\n");
+    printf("    -p: port(s) to scan (single port or range (see examples))\n");
+    printf("    -t: number of concurrent threads\n");
+    printf("    -h, --help: show help menu\n");
 }
