@@ -13,7 +13,7 @@ C based port scanner
 - IP validation using regex
 - Host pinging before scannning
 - Shows opened ports in real-time
-- Support multi-threading
+- Support multi-threading with partial asynchronous features
 
 ## ⌨️ Usage
 
@@ -56,7 +56,6 @@ To uninstall run `dpkg -r zeroscan`
 ## 📝 Notes
 - Scans only TCP ports, no UDP
 - Made specifically for linux (POSIX API)
-- Good enough for basic scanning, for more larger scans asynchronous feature would be better
 
 
 
