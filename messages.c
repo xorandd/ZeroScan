@@ -17,13 +17,16 @@ LIGHT_GRAY "---------------------------------------------\n" RESET_COLOR
 
 void program_usage(){
     printf( GREEN "[*]" RESET_COLOR " Usage example:\n");
-    printf("    zeroscan 127.0.0.1 -p 1 1000 -t 20\n");
-    printf("    zeroscan 127.0.0.1 -p 3306\n");
-    
+    printf("    zeroscan 127.0.0.1 -p 1 1000\n");
+    printf("    zeroscan 127.0.0.1 -p 3306 --retries 2\n");
+    printf("    zeroscan 127.0.0.1 -p 5000 --long --threads 200\n");
+
     printf("\n");
     
     printf( GREEN "[*]" RESET_COLOR " Flags:\n");
-    printf("    -p: port(s) to scan (single port or range (see examples))\n");
-    printf("    -t: number of concurrent threads\n");
+    printf("    -p: port(s) to scan (single port or range (see example))\n");
+    printf("    -t, --threads: number of concurrent threads, default value is 500.\n");
+    printf("    --retries: number of times to scan\n");
+    printf("    --long: retry failed scanned ports up to 3 times\n");
     printf("    -h, --help: show help menu\n");
 }

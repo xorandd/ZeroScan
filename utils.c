@@ -1,8 +1,10 @@
+#include <stdio.h>
 #include <regex.h>
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
 #include "utils.h"
+#include "colors.h"
 
 int validate_ip(const char *ip) {
     regex_t regex;
@@ -23,7 +25,7 @@ int validate_ip(const char *ip) {
     }
 }
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *num_threads){
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning){
     for (int i = 1; i < argc; i++){
         if (validate_ip(argv[i])){
             *ip = argv[i];
@@ -37,9 +39,31 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
                 *end_port = *start_port;
             }
         }
-        else if (strcmp(argv[i], "-t") == 0 && i+1 < argc){
+        else if((strcmp(argv[i], "-t") == 0 || strcmp(argv[i], "--threads") == 0) && i+1 < argc){
             *num_threads = atoi(argv[++i]);
+        }
+        else if (strcmp(argv[i], "--retries") == 0 && i+1 < argc){
+            *retries = atoi(argv[++i]);
+        }
+        else if (strcmp(argv[i], "--long") == 0){
+            *is_long_scanning = 1;
+        }
+        else{
+            printf( BRIGHT_RED "[-]" RESET_COLOR " Urecognized option: %s", argv[i]);
+            return 1;
         }
     }
     return 0;
+}
+
+int calculate_batch_size(int total_ports){
+    if (total_ports <= 100) {
+        return total_ports;
+    }
+    else if (total_ports <= 1000) {
+        return min(total_ports / 4, 250);
+    }
+    else {
+        return 500;
+    }
 }

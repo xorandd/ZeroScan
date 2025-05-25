@@ -9,12 +9,12 @@ void *thread_call_scan_ports(void *arg){
     //thread_args points to the passed values
     //casting pointer to the thread_args type
     thread_args *args = (thread_args*) arg; 
-    scan_ports(args->ip, args->start_port, args->end_port);
+    scan_ports(args->ip, args->start_port, args->end_port, args->is_long_scanning);
 
     return NULL;
 }
 
-void threads_for_scanning(const char *ip, int start_port, int end_port, int num_threads){
+void threads_for_scanning(const char *ip, int start_port, int end_port, int num_threads, int is_long_scanning){
     int total_ports = (end_port - start_port) + 1;
 
     //to not create extra useless threads 
@@ -34,7 +34,9 @@ void threads_for_scanning(const char *ip, int start_port, int end_port, int num_
         //if exceeded end_port value
         if(args[i].end_port > end_port)
             args[i].end_port = end_port;
-        
+
+        args[i].is_long_scanning = is_long_scanning;
+
         pthread_create(&threads[i], NULL, thread_call_scan_ports, (void*)&args[i]);
     }
 
