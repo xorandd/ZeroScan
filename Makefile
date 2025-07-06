@@ -1,8 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g -pthread
 TARGET = zeroscan
-SRC = main.c scanner.c utils.c messages.c threading.c
+SRC = src/main.c src/scanner.c src/utils.c src/messages.c src/threading.c
 
 all:
 	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
-
