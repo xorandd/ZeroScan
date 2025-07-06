@@ -16,8 +16,8 @@ int main(int argc, char* argv[]){
         return 0;
     }
 
-    if(argc < 4 || argc > 10){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing / typo in flag\n");
+    if(argc < 4 || argc > 11){
+        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing \n");
         program_usage();
         return 1;
     }
@@ -26,11 +26,12 @@ int main(int argc, char* argv[]){
     int start_port = -1;
     int end_port = -1;
     int retries = 1;
-    int num_threads = 500; //by default
+    int num_threads = 200; //by default
     int is_long_scanning = 0;
+    int no_ping = 0;
 
     // ---- ASSIGNING ----
-    assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning);
+    assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &no_ping);
     
     // ---- VALIDATIONS ----
     if (!ip || validate_ip(ip) != 1){
@@ -65,6 +66,7 @@ int main(int argc, char* argv[]){
     }
     
     // ---- PING / SCAN ----
+    /*
     char ping_cmd[256];
     snprintf(ping_cmd, sizeof(ping_cmd), "ping -c 1 %s > /dev/null 2>&1", ip);
     if(system(ping_cmd) == 0){
@@ -78,6 +80,19 @@ int main(int argc, char* argv[]){
     else{
         printf( BRIGHT_RED "[!]" RESET_COLOR " Host is down\n");
     }
-
+    */ 
+    if (no_ping == 0){
+        char ping_cmd[256];
+        snprintf(ping_cmd, sizeof(ping_cmd), "ping -c 1 %s > /dev/null 2>&1", ip);
+        if (system(ping_cmd) != 0){
+            printf( BRIGHT_RED "[!]" RESET_COLOR " Host is down\n");
+            return 1;
+        }
+    }
+    while(retries > 0){
+        printf( BRIGHT_GREEN "\n[*]" RESET_COLOR "Scanning ports on %s \n\n", ip);
+        threads_for_scanning(ip, start_port, end_port, num_threads, is_long_scanning);    
+        retries--;
+    }
     return 0;
 }

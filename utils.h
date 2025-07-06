@@ -10,7 +10,7 @@
 
 int validate_ip(const char *ip);
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning);
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *no_ping);
 
 int calculate_batch_size(int total_ports);
 

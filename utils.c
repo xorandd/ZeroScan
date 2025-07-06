@@ -25,7 +25,7 @@ int validate_ip(const char *ip) {
     }
 }
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning){
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *no_ping){
     for (int i = 1; i < argc; i++){
         if (validate_ip(argv[i])){
             *ip = argv[i];
@@ -47,6 +47,9 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
         }
         else if (strcmp(argv[i], "--long") == 0){
             *is_long_scanning = 1;
+        }
+        else if (strcmp(argv[i], "--no-ping") == 0){
+            *no_ping = 1;
         }
         else{
             printf( BRIGHT_RED "[-]" RESET_COLOR " Urecognized option: %s", argv[i]);
