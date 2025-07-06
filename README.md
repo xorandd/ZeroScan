@@ -62,7 +62,10 @@ $ echo '9b88525771a941559cf2724899168403f4111342c5c8096ee1a516a97be942d2' ./zero
 ./zeroscan_1.3.1.deb: OK
 ```
 
-To install package run `dpkg -i zeroscan`
+To install run `dpkg -i <downloaded file>` eg
+```
+dpkg -i ./zeroscan_1.3.1.deb
+```
 
 ## 📝 Notes
 - Scans only TCP ports, no UDP
