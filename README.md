@@ -55,6 +55,13 @@ make
 
 Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/releases)
 
+Integrity Checksum example
+
+```
+$ echo '9b88525771a941559cf2724899168403f4111342c5c8096ee1a516a97be942d2' ./zeroscan_1.3.1.deb | sha256sum -c
+./zeroscan_1.3.1.deb: OK
+```
+
 To install package run `dpkg -i zeroscan`
 
 ## 📝 Notes
