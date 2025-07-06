@@ -41,7 +41,7 @@ zeroscan 127.0.0.1 -p 5000 --threads 200
 ./zeroscan --help
 ```
 
-## ✨ Installation
+## 📥 Installation
 
 ### 1. Compiling from source
 
