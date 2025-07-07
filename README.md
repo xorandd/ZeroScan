@@ -13,7 +13,7 @@ C based port scanner
 - IP validation using regex
 - Host pinging before scannning
 - Shows opened ports in real-time
-- Support multi-threading with partial asynchronous features (`-t`, `--threads` option to set number of threads)
+- Support multi-threading with partial asynchronous feature (`-t`, `--threads` option to set number of threads)
 - Supports rescanning failed ports up to 3 times (`--long` option)
 - Allows to scan target multiple times, depends on user's input (`--long` option)
 - Doesn't ping machine you scanning if not needed
@@ -55,7 +55,17 @@ make
 
 Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/releases)
 
-To install package run `dpkg -i <downloaded_file>`
+Integrity Checksum example
+
+```
+$ echo '9b88525771a941559cf2724899168403f4111342c5c8096ee1a516a97be942d2' ./zeroscan_1.3.1.deb | sha256sum -c
+./zeroscan_1.3.1.deb: OK
+```
+
+To install run `dpkg -i <downloaded file>` eg
+```
+dpkg -i ./zeroscan_1.3.1.deb
+```
 
 ## 📝 Notes
 - Scans only TCP ports, no UDP
