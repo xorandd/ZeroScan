@@ -4,7 +4,7 @@
 #include <string.h>
 #include "messages.h"  // startup_banner(), program_usage() 
 #include "colors.h"
-#include "utils.h"     // validate_ip(), assign_values()
+#include "utils.h"     // validate_ip(), assign_values(), validate_values()
 #include "threading.h" // threads_for_scanning() 
 
 
@@ -29,45 +29,18 @@ int main(int argc, char* argv[]){
     int retries = 1;
     int num_threads = 200; //by default
     int is_long_scanning = 0;
-    int is_no_ping = 0;
+    int is_ping = 0;
 
     // ---- ASSIGNING ----
-    assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &is_no_ping);
+    if (assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &is_ping) == 1)
+        return 1;
     
     // ---- VALIDATIONS ----
-    if (!ip || validate_ip(ip) != 1){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Incorrect or missing IP format.\n");
-        program_usage();
+    if (validate_values(&ip,&start_port,&end_port,&num_threads,&retries) == 1)
         return 1;
-    }        
-
-    if (start_port == -1 || end_port == -1){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing\n");
-        return 1;
-    }
-
-    if(end_port < start_port){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. end port <= start port, enter valid values.\n");
-        program_usage();
-        return 1;
-    }
-    if(start_port < 0 || end_port > 65535){
-	printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Ports should be withing range of 0-65535\n");
-        program_usage();
-        return 1;
-    }
-
-    if (num_threads <= 0){
-        printf( BRIGHT_RED "[!]" RESET_COLOR "ERROR. Num of threads cant be 0 or less\n");
-        return 1;
-    }
     
-    if (retries <= 0){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. --retries can't be negative");
-    }
-    
-    // ---- PING / SCAN ----
-    if (is_no_ping == 0){
+     // ---- PING / SCAN ----
+    if (is_ping == 0){
         char ping_cmd[256];
         snprintf(ping_cmd, sizeof(ping_cmd), "ping -c 1 %s > /dev/null 2>&1", ip);
         if (system(ping_cmd) != 0){
