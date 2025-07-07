@@ -3,7 +3,7 @@
 #include <string.h>
 #include <pthread.h>
 #include "threading.h"
-#include "scanner.h"
+#include "scanner.h"   // scan_ports()
 
 void *thread_call_scan_ports(void *arg){
     //thread_args points to the passed values

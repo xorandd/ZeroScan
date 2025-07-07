@@ -4,12 +4,24 @@
 #include <sys/socket.h>
 #include <sys/select.h>
 #include <fcntl.h>
-#include "scanner.h"
-#include "utils.h"
+#include "scanner.h"   // scan_ports()
+#include "utils.h"     // min()
 #include "colors.h"
 
 #define TIMEOUT 1
 #define MAX_RETRIES 3
+
+int calculate_batch_size(int total_ports){
+    if (total_ports <= 100) {
+        return total_ports;
+    }
+    else if (total_ports <= 1000) {
+        return min(total_ports / 4, 250);
+    }
+    else {
+        return 500;
+    }
+}
 
 int scan_ports(const char *ip, int start_port, int end_port, int is_long_scanning){
     struct sockaddr_in addr;

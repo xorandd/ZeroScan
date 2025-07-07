@@ -25,7 +25,7 @@ int validate_ip(const char *ip) {
     }
 }
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *no_ping){
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *is_no_ping){
     for (int i = 1; i < argc; i++){
         if (validate_ip(argv[i])){
             *ip = argv[i];
@@ -49,7 +49,7 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
             *is_long_scanning = 1;
         }
         else if (strcmp(argv[i], "--no-ping") == 0){
-            *no_ping = 1;
+            *is_no_ping = 1;
         }
         else{
             printf( BRIGHT_RED "[-]" RESET_COLOR " Urecognized option: %s", argv[i]);
@@ -57,16 +57,4 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
         }
     }
     return 0;
-}
-
-int calculate_batch_size(int total_ports){
-    if (total_ports <= 100) {
-        return total_ports;
-    }
-    else if (total_ports <= 1000) {
-        return min(total_ports / 4, 250);
-    }
-    else {
-        return 500;
-    }
 }

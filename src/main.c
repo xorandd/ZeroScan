@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "messages.h"
+#include "messages.h"  // startup_banner(), program_usage() 
 #include "colors.h"
-#include "utils.h"
-#include "threading.h"
+#include "utils.h"     // validate_ip(), assign_values()
+#include "threading.h" // threads_for_scanning() 
+
 
 int main(int argc, char* argv[]){
 
@@ -28,10 +29,10 @@ int main(int argc, char* argv[]){
     int retries = 1;
     int num_threads = 200; //by default
     int is_long_scanning = 0;
-    int no_ping = 0;
+    int is_no_ping = 0;
 
     // ---- ASSIGNING ----
-    assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &no_ping);
+    assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &is_no_ping);
     
     // ---- VALIDATIONS ----
     if (!ip || validate_ip(ip) != 1){
@@ -66,22 +67,7 @@ int main(int argc, char* argv[]){
     }
     
     // ---- PING / SCAN ----
-    /*
-    char ping_cmd[256];
-    snprintf(ping_cmd, sizeof(ping_cmd), "ping -c 1 %s > /dev/null 2>&1", ip);
-    if(system(ping_cmd) == 0){
-        while(retries > 0){
-            printf( BRIGHT_GREEN "\n[*]" RESET_COLOR "Scanning ports on %s \n\n", ip);
-            threads_for_scanning(ip, start_port, end_port, num_threads, is_long_scanning);
-            
-            retries--;
-        }
-    }
-    else{
-        printf( BRIGHT_RED "[!]" RESET_COLOR " Host is down\n");
-    }
-    */ 
-    if (no_ping == 0){
+    if (is_no_ping == 0){
         char ping_cmd[256];
         snprintf(ping_cmd, sizeof(ping_cmd), "ping -c 1 %s > /dev/null 2>&1", ip);
         if (system(ping_cmd) != 0){
