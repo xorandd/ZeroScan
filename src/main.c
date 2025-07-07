@@ -29,7 +29,7 @@ int main(int argc, char* argv[]){
     int retries = 1;
     int num_threads = 200; //by default
     int is_long_scanning = 0;
-    int is_ping = 0;
+    int is_ping = 1;
 
     // ---- ASSIGNING ----
     if (assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &is_ping) == 1)
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
         return 1;
     
      // ---- PING / SCAN ----
-    if (is_ping == 0){
+    if (is_ping == 1){
         char ping_cmd[256];
         snprintf(ping_cmd, sizeof(ping_cmd), "ping -c 1 %s > /dev/null 2>&1", ip);
         if (system(ping_cmd) != 0){

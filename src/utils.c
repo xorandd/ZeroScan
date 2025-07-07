@@ -50,7 +50,7 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
             *is_long_scanning = 1;
         }
         else if (strcmp(argv[i], "--no-ping") == 0){
-            *is_ping = 1;
+            *is_ping = 0;
         }
         else{
             printf( BRIGHT_RED "[-]" RESET_COLOR " Urecognized option: %s\n", argv[i]);
