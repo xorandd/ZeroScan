@@ -29,7 +29,7 @@ zeroscan <ip_address> -p <port> -- retries 3
 
 ```console
 zeroscan 127.0.0.1 -p 1 1000
-zeroscan 127.0.0.1 -p 1 1000  --long --no-ping
+zeroscan 127.0.0.1 -p 1 1000 --long --no-ping
 zeroscan 127.0.0.1 -p 3306 --retries 2
 zeroscan 127.0.0.1 -p 5000 --threads 200
 ```
