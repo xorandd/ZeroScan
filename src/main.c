@@ -16,13 +16,11 @@ int main(int argc, char* argv[]){
         program_usage();
         return 0;
     }
-
-    if(argc < 4 || argc > 11){
+    if(argc < 2 || argc > 11){
         printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing \n");
         program_usage();
         return 1;
     }
-    
     char *ip = NULL;
     int start_port = -1;
     int end_port = -1;
@@ -30,16 +28,16 @@ int main(int argc, char* argv[]){
     int num_threads = 200; //by default
     int is_long_scanning = 0;
     int is_ping = 1;
-
-    // ---- ASSIGNING ----
-    if (assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &is_ping) == 1)
+    int is_top_ports = 0;
+    // ---- assigning ----
+    if (assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &is_ping, &is_top_ports) == 1)
         return 1;
     
-    // ---- VALIDATIONS ----
-    if (validate_values(&ip,&start_port,&end_port,&num_threads,&retries) == 1)
+    // ---- validations ----
+    if (validate_values(&ip,&start_port,&end_port,&num_threads,&retries, &is_top_ports) == 1)
         return 1;
     
-     // ---- PING / SCAN ----
+     // ---- ping / scan ----
     if (is_ping == 1){
         char ping_cmd[256];
         snprintf(ping_cmd, sizeof(ping_cmd), "ping -c 1 %s > /dev/null 2>&1", ip);
@@ -48,10 +46,20 @@ int main(int argc, char* argv[]){
             return 1;
         }
     }
-    while(retries > 0){
-        printf( BRIGHT_GREEN "\n[*]" RESET_COLOR "Scanning ports on %s \n\n", ip);
-        threads_for_scanning(ip, start_port, end_port, num_threads, is_long_scanning);    
-        retries--;
+    
+    printf( BRIGHT_GREEN "\n[*]" RESET_COLOR " Scanning %s\n\n", ip);
+
+    if (is_top_ports){
+        while(retries > 0){
+            threads_for_scanning_top_ports(ip, num_threads, is_long_scanning);    
+            retries--;
+        }
+    }
+    else {
+        while(retries > 0){
+            threads_for_scanning(ip, start_port, end_port, num_threads, is_long_scanning);    
+            retries--;
+        }
     }
     return 0;
 }

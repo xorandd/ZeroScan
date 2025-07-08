@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include "scanner.h"   // scan_ports()
 #include "utils.h"     // min()
+#include "top_1000_ports.h" // top_ports[1000]
 #include "colors.h"
 
 #define TIMEOUT 1
@@ -86,3 +87,58 @@ int scan_ports(const char *ip, int start_port, int end_port, int is_long_scannin
     return 0;
 }
 
+int scan_top_ports(const char *ip, int starting_index, int ending_index, int is_long_scanning){
+    struct sockaddr_in addr;
+    fd_set write_fds;
+    struct timeval timeout;
+    int result;
+    socklen_t len = sizeof(result);
+
+    for (int i = starting_index; i <= ending_index; i++){
+        int port = top_ports[i];
+        
+        int attempt_num = 0;
+        int total_attempts = 0;
+        
+        if (is_long_scanning){
+            total_attempts = MAX_RETRIES;
+        }
+
+        while (attempt_num <= total_attempts){
+            int sock = socket(AF_INET, SOCK_STREAM, 0);
+            
+            if (sock < 0){
+                attempt_num++;
+                continue;
+            }
+            
+            addr.sin_family = AF_INET;
+            addr.sin_addr.s_addr = inet_addr(ip);
+            addr.sin_port = htons(port);
+            
+            fcntl(sock, F_SETFL, O_NONBLOCK);
+            connect(sock, (struct sockaddr *)&addr, sizeof(addr));
+
+            FD_ZERO(&write_fds);
+            FD_SET(sock, &write_fds);
+
+            timeout.tv_sec = TIMEOUT;
+            timeout.tv_usec = 0;
+
+            int select_result = select(sock + 1, NULL, &write_fds, NULL, &timeout);
+
+            if (select_result > 0 && FD_ISSET(sock, &write_fds)){
+                getsockopt(sock, SOL_SOCKET, SO_ERROR, &result, &len);
+                if (result == 0){
+                    printf(GREEN "Open port: " RESET_COLOR "%d\n", port);
+                    close(sock);
+                    break;
+                }
+            }
+
+            close(sock);
+            attempt_num++;
+        }
+    }
+    return 0;
+}
