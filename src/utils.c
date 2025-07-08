@@ -26,19 +26,23 @@ int validate_ip(const char *ip) {
     }
 }
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *is_ping){
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports){
+    int is_port_option = 0;
+
     for (int i = 1; i < argc; i++){
         if (validate_ip(argv[i])){
             *ip = argv[i];
         }
         else if (strcmp(argv[i], "-p") == 0 && i+1 < argc){
-            *start_port = atoi(argv[++i]);
-            if (i+1 < argc && argv[i+1][0] != '-'){
-                *end_port = atoi(argv[++i]);
+            char *range_str = argv[++i];
+            if (strchr(range_str, '-')){
+                sscanf(range_str, "%d-%d", start_port, end_port);
             }
             else{
+                *start_port = atoi(range_str);
                 *end_port = *start_port;
             }
+            is_port_option = 1;
         }
         else if((strcmp(argv[i], "-t") == 0 || strcmp(argv[i], "--threads") == 0) && i+1 < argc){
             *num_threads = atoi(argv[++i]);
@@ -53,33 +57,37 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
             *is_ping = 0;
         }
         else{
-            printf( BRIGHT_RED "[-]" RESET_COLOR " Urecognized option: %s\n", argv[i]);
+            printf( BRIGHT_RED "[-]" RESET_COLOR " Unrecognized option: %s\n", argv[i]);
             return 1;
         }
     }
+    if (is_port_option == 0){
+        *is_top_ports = 1;
+    }
     return 0;
 }
-int validate_values(char **ip, int *start_port, int *end_port, int *retries, int *num_threads){
-    if (! (*ip) || validate_ip(*ip) != 1){
+int validate_values(char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_top_ports){
+    if (!(*ip) || validate_ip(*ip) != 1){
         printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Incorrect or missing IP format.\n");
         program_usage();
         return 1;
     }        
-
-    if (*start_port == -1 || *end_port == -1){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing\n");
-        return 1;
-    }
-
-    if(*end_port < *start_port){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. end port <= start port, enter valid values.\n");
-        program_usage();
-        return 1;
-    }
-    if(*start_port < 0 || *end_port > 65535){
-	printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Ports should be withing range of 0-65535\n");
-        program_usage();
-        return 1;
+    if (!(*is_top_ports)){
+        if (*start_port == -1 || *end_port == -1){
+            printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing\n");
+            return 1;
+        }
+    
+        if(*end_port < *start_port){
+            printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. end port <= start port, enter valid values.\n");
+            program_usage();
+            return 1;
+        }
+        if(*start_port < 1 || *end_port > 65535){
+	        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Ports should be within range of 1-65535\n");
+            program_usage();
+            return 1;
+        }
     }
 
     if (*num_threads <= 0){
