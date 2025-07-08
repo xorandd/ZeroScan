@@ -51,6 +51,8 @@ git clone https://github.com/xorandd/ZeroScan
 cd ZeroScan
 make
 ```
+Move compiled binary to `/usr/local/bin` if you want it to run anywhere in terminal. 
+
 ### 2. Debian / Kali
 
 Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/releases)
