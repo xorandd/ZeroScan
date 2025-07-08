@@ -10,8 +10,8 @@
 C based port scanner
 
 ## ✨ Features
-- IP validation using regex
 - Host pinging before scannning
+- Scans top 1000 ports if no need to ping before scan (top_1000_ports.h)
 - Shows opened ports in real-time
 - Support multi-threading with partial asynchronous feature (`-t`, `--threads` option to set number of threads)
 - Supports rescanning failed ports up to 3 times (`--long` option)
@@ -58,13 +58,13 @@ Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/rel
 Integrity Checksum example
 
 ```
-$ echo '9b88525771a941559cf2724899168403f4111342c5c8096ee1a516a97be942d2' ./zeroscan_1.3.1.deb | sha256sum -c
+$ echo '68ef6f1afc0e29b90981f983b006e587e63ecf6bedacd338cdc66e6c000dc246' ./zeroscan_1.4.0.deb | sha256sum -c
 ./zeroscan_1.3.1.deb: OK
 ```
 
 To install run `dpkg -i <downloaded file>` eg
 ```
-dpkg -i ./zeroscan_1.3.1.deb
+dpkg -i ./zeroscan_1.4.0.deb
 ```
 
 ## 📝 Notes
