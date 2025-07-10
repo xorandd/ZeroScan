@@ -17,29 +17,16 @@ C based port scanner
 - Supports rescanning failed ports up to 3 times (`--long` option)
 - Allows to scan target multiple times, depends on user's input (`--long` option)
 - Doesn't ping machine you scanning if not needed
+- Allows to run nmap with following options:
+  - sS
+  - sC
+  - sV
+  - A
+  - T<0-5> 
 
-## ⌨️ Usage
+## ❗ Requirements
 
-```console
-zeroscan <ip_address> -p <start_port> <end_port> -t <num_threads> --long
-zeroscan <ip_address> -p <port> -- retries 3
-```
-
-### Example
-
-```console
-zeroscan 127.0.0.1 -p 1 1000
-zeroscan 127.0.0.1 -p 1 1000 --long --no-ping
-zeroscan 127.0.0.1 -p 3306 --retries 2
-zeroscan 127.0.0.1 -p 5000 --threads 200
-```
-
-### Print help menu
-
-```console
-./zeroscan -h
-./zeroscan --help
-```
+If you want to use `--nmap` option you need to install [nmap](https://nmap.org/)
 
 ## 📥 Installation
 
@@ -60,8 +47,8 @@ Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/rel
 Integrity Checksum example
 
 ```
-$ echo '68ef6f1afc0e29b90981f983b006e587e63ecf6bedacd338cdc66e6c000dc246' ./zeroscan_1.4.0.deb | sha256sum -c
-./zeroscan_1.3.1.deb: OK
+$ echo 'e8c7737b070a071caf0092ec0cb261f29d299dbe4992d83d99ac5b62e0a2d850' ./zeroscan_1.5.0.deb | sha256sum -c
+./zeroscan_1.5.0.deb: OK
 ```
 
 To install run `dpkg -i <downloaded file>` eg
@@ -72,7 +59,6 @@ dpkg -i ./zeroscan_1.4.0.deb
 ## 📝 Notes
 - Scans only TCP ports, no UDP
 - Made specifically for linux (POSIX API)
-- Default number of threads is set to 200, however if you wish to change use `--threads` option
-or run scan with -t NUM, --threads NUM flag
+- Default number of threads is set to 200, however if you wish to change use `--threads`/`-t` option
 - It is recommended to use `--retries` option during default scanning (without `--long` option) to reduce chance of failed ports.
 Default scanning scans only 1 time, it may skip some ports. Scanning with `--long NUM` increases reliability 
