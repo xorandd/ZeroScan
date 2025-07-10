@@ -5,8 +5,12 @@
 #include "messages.h"  // startup_banner(), program_usage() 
 #include "colors.h"
 #include "utils.h"     // validate_ip(), assign_values(), validate_values()
-#include "threading.h" // threads_for_scanning() 
+#include "threading.h" // threads_for_scanning(), threads_for_scanning_top_ports
+#include "global_vars.h"
+#include "scanner.h"   // start_nmap_scan()
 
+int is_nmap = 0;
+char nmap_flags[256] = {0};
 
 int main(int argc, char* argv[]){
 
@@ -29,8 +33,11 @@ int main(int argc, char* argv[]){
     int is_long_scanning = 0;
     int is_ping = 1;
     int is_top_ports = 0;
+    int nmap_flags_size = sizeof(nmap_flags);
+
     // ---- assigning ----
-    if (assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, &is_ping, &is_top_ports) == 1)
+    if (assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, 
+                      &is_ping, &is_top_ports, &nmap_flags_size) == 1)
         return 1;
     
     // ---- validations ----
@@ -60,6 +67,9 @@ int main(int argc, char* argv[]){
             threads_for_scanning(ip, start_port, end_port, num_threads, is_long_scanning);    
             retries--;
         }
+    }
+    if (is_nmap){
+        start_nmap_scan(ip);
     }
     return 0;
 }

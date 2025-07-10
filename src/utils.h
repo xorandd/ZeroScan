@@ -10,7 +10,7 @@
 
 int validate_ip(const char *ip);
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports);
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports, int *nmap_flags_size);
 
 int validate_values(char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_top_ports);
 

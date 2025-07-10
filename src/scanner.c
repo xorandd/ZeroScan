@@ -1,16 +1,21 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/select.h>
 #include <fcntl.h>
-#include "scanner.h"   // scan_ports()
-#include "utils.h"     // min()
+#include <string.h>
+#include "scanner.h"        // scan_ports()
+#include "utils.h"          // min()
 #include "top_1000_ports.h" // top_ports[1000]
 #include "colors.h"
+#include "global_vars.h"
 
 #define TIMEOUT 1
 #define MAX_RETRIES 3
+
+port_list found_ports[65535] = {0};
 
 int calculate_batch_size(int total_ports){
     if (total_ports <= 100) {
@@ -74,6 +79,11 @@ int scan_ports(const char *ip, int start_port, int end_port, int is_long_scannin
                     if (result == 0){
                         printf(GREEN "Open port: " RESET_COLOR "%d\n", port);
                         close(sock);
+
+                        if (!found_ports[port-1].is_valid) {
+                            found_ports[port-1].is_valid = 1;
+                            found_ports[port-1].port_number = port;
+                        }
                         break;
                     }
                 }
@@ -83,7 +93,6 @@ int scan_ports(const char *ip, int start_port, int end_port, int is_long_scannin
             }
         }
     }
-
     return 0;
 }
 
@@ -132,6 +141,10 @@ int scan_top_ports(const char *ip, int starting_index, int ending_index, int is_
                 if (result == 0){
                     printf(GREEN "Open port: " RESET_COLOR "%d\n", port);
                     close(sock);
+                    if (!found_ports[port-1].is_valid) {
+                        found_ports[port-1].is_valid = 1;
+                        found_ports[port-1].port_number = port;
+                    }
                     break;
                 }
             }
@@ -140,5 +153,34 @@ int scan_top_ports(const char *ip, int starting_index, int ending_index, int is_
             attempt_num++;
         }
     }
+    return 0;
+}
+
+int start_nmap_scan(const char *ip){
+    char nmap_cmd[2048] = {0};
+    char ports[512] = {0};
+    
+    int is_first_port = 1;
+    for (int i = 0; i < 65535; i++){
+        if(found_ports[i].is_valid){
+            if (!is_first_port){
+                strcat(ports, ",");
+            }
+            char ports_list[6];
+            snprintf(ports_list, sizeof(ports_list), "%d", found_ports[i].port_number);
+            strcat(ports,ports_list);
+            is_first_port = 0;
+        }
+    }
+    if(strlen(ports) == 0){
+        printf(BRIGHT_RED "[!]" RESET_COLOR " NMAP. No open ports found to scan\n");
+        return 1;
+    }
+
+    snprintf(nmap_cmd, sizeof(nmap_cmd), "nmap %s -p %s %s", ip, ports, nmap_flags );
+
+    printf("\n" GREEN "Running nmap:" RESET_COLOR " %s\n", nmap_cmd);
+    system(nmap_cmd);
+
     return 0;
 }

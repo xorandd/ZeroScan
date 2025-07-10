@@ -6,6 +6,7 @@
 #include "utils.h"
 #include "colors.h"
 #include "messages.h" // program_usage()
+#include "global_vars.h"
 
 int validate_ip(const char *ip) {
     regex_t regex;
@@ -26,7 +27,7 @@ int validate_ip(const char *ip) {
     }
 }
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports){
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports, int *nmap_flags_size){
     int is_port_option = 0;
 
     for (int i = 1; i < argc; i++){
@@ -55,6 +56,24 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
         }
         else if (strcmp(argv[i], "--no-ping") == 0){
             *is_ping = 0;
+        }
+        else if (strcmp(argv[i], "--nmap") == 0){
+            is_nmap = 1;
+            
+            for (int j = i + 1; j < argc; j++){
+                if (strcmp(argv[j], "-p") == 0 || strcmp(argv[j], "-t") == 0 || strcmp(argv[j], "--threads") == 0 || 
+                    strcmp(argv[j], "--retries") == 0 || strcmp(argv[j], "--long") == 0 ||
+                    strcmp(argv[j], "--no-ping") == 0 || strcmp(argv[j], "--nmap") == 0) {    
+                    break;
+                }
+                if (strcmp(argv[j], "-sS") == 0 || strcmp(argv[j], "-sC") == 0 || strcmp(argv[j], "-sV") == 0 || strcmp(argv[j], "-A") == 0 ||
+                    strcmp(argv[j], "-T0") == 0 || strcmp(argv[j], "-T1") == 0 || strcmp(argv[j], "-T2") == 0 || 
+                    strcmp(argv[j], "-T3") == 0 || strcmp(argv[j], "-T4") == 0 || strcmp(argv[j], "-T5") == 0){
+                    strncat(nmap_flags, " ", *nmap_flags_size - strlen(nmap_flags) - 1);
+                    strncat(nmap_flags, argv[j], *nmap_flags_size - strlen(nmap_flags) - 1);
+                }
+                i=j;
+            }
         }
         else{
             printf( BRIGHT_RED "[-]" RESET_COLOR " Unrecognized option: %s\n", argv[i]);
