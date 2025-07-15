@@ -47,8 +47,8 @@ Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/rel
 Integrity Checksum example
 
 ```
-$ echo 'e8c7737b070a071caf0092ec0cb261f29d299dbe4992d83d99ac5b62e0a2d850' ./zeroscan_1.5.0.deb | sha256sum -c
-./zeroscan_1.5.0.deb: OK
+$ echo '6e25efebc8257fd0efa9e166b1fe9992d3e1d848fa592b8ed577898e441aaa46' ./zeroscan_1.5.1.deb | sha256sum -c
+./zeroscan_1.5.1.deb: OK
 ```
 
 To install run `dpkg -i <downloaded file>` eg
