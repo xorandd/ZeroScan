@@ -7,7 +7,7 @@
 
 ```
 
-C based port scanner
+Port scanner written in C
 
 ## ✨ Features
 - Host pinging before scannning
