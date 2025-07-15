@@ -37,7 +37,7 @@ void program_usage(){
     printf("\n");
 
     printf( GREEN "[*]" RESET_COLOR " Usage example:\n");
-    printf("    zeroscan 127.0.0.1 -p 1 1000\n");
+    printf("    zeroscan 127.0.0.1 -p 1-1000\n");
     printf("    zeroscan 127.0.0.1 -p 3306 --retries 2\n");
     printf("    zeroscan 127.0.0.1 -p 5000 --long --threads 200 --no-ping\n");
     printf("    zeroscan 127.0.0.1 --nmap -A -T4\n");
