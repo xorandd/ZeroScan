@@ -43,7 +43,7 @@ Move compiled binary to `/usr/local/bin` if you want it to run anywhere in termi
 
 Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/releases)
 
-Integrity Checksum example
+Checksum example
 
 ```
 $ echo '6e25efebc8257fd0efa9e166b1fe9992d3e1d848fa592b8ed577898e441aaa46' ./zeroscan_1.5.1.deb | sha256sum -c
