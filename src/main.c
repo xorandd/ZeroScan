@@ -9,6 +9,8 @@
 #include "global_vars.h"
 #include "scanner.h"   // start_nmap_scan()
 
+int is_single_port = 0;
+
 int is_nmap = 0;
 char nmap_flags[256] = {0};
 
@@ -44,7 +46,10 @@ int main(int argc, char* argv[]){
     if (validate_values(&ip,&start_port,&end_port,&num_threads,&retries, &is_top_ports) == 1)
         return 1;
     
-     // ---- ping / scan ----
+    // check if single port entered
+    is_single_port = (start_port == end_port);
+
+    // ---- ping / scan ----
     if (is_ping == 1){
         char ping_cmd[256];
         snprintf(ping_cmd, sizeof(ping_cmd), "ping -c 1 %s > /dev/null 2>&1", ip);
@@ -54,7 +59,7 @@ int main(int argc, char* argv[]){
         }
     }
     
-    printf( BRIGHT_GREEN "\n[*]" RESET_COLOR " Scanning %s\n\n", ip);
+    printf( GREEN "\n[*]" RESET_COLOR " Scanning %s\n\n", ip);
 
     if (is_top_ports){
         while(retries > 0){

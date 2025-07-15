@@ -77,17 +77,20 @@ int scan_ports(const char *ip, int start_port, int end_port, int is_long_scannin
                 if (select_result > 0 && FD_ISSET(sock, &write_fds)){
                     getsockopt(sock, SOL_SOCKET, SO_ERROR, &result, &len);
                     if (result == 0){
-                        printf(GREEN "Open port: " RESET_COLOR "%d\n", port);
+                        printf(BRIGHT_GREEN "Open: " RESET_COLOR "%d\n", port);
                         close(sock);
-
+                        
                         if (!found_ports[port-1].is_valid) {
                             found_ports[port-1].is_valid = 1;
                             found_ports[port-1].port_number = port;
                         }
                         break;
                     }
+                    else if (is_single_port){
+                        printf(BRIGHT_RED "Close: " RESET_COLOR "%d\n", port);
+                        close(sock);
+                    }
                 }
-
                 close(sock);
                 attempt_num++;
             }
@@ -139,7 +142,7 @@ int scan_top_ports(const char *ip, int starting_index, int ending_index, int is_
             if (select_result > 0 && FD_ISSET(sock, &write_fds)){
                 getsockopt(sock, SOL_SOCKET, SO_ERROR, &result, &len);
                 if (result == 0){
-                    printf(GREEN "Open port: " RESET_COLOR "%d\n", port);
+                    printf(BRIGHT_GREEN "Open: " RESET_COLOR "%d\n", port);
                     close(sock);
                     if (!found_ports[port-1].is_valid) {
                         found_ports[port-1].is_valid = 1;
@@ -179,7 +182,7 @@ int start_nmap_scan(const char *ip){
 
     snprintf(nmap_cmd, sizeof(nmap_cmd), "nmap %s -p %s %s", ip, ports, nmap_flags );
 
-    printf("\n" GREEN "Running nmap:" RESET_COLOR " %s\n", nmap_cmd);
+    printf("\n" GREEN "[*]" RESET_COLOR " Running nmap:\n$ %s\n\n", nmap_cmd);
     system(nmap_cmd);
 
     return 0;
