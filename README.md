@@ -32,7 +32,6 @@ If you want to use `--nmap` option you need to install [nmap](https://nmap.org/)
 
 ### 1. Compiling from source
 
-Use `Makefile` for compilation
 ```
 git clone https://github.com/xorandd/ZeroScan
 cd ZeroScan
