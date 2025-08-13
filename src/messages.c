@@ -17,6 +17,7 @@ LIGHT_GRAY "---------------------------------------------\n" RESET_COLOR
 
 void program_usage(){
     printf( GREEN "[*]" RESET_COLOR " Options:\n");
+    printf("    -v, --version: show version number\n");
     printf("    -p: port(s) to scan (single port or range (see example))\n");
     printf("    -t, --threads: number of concurrent threads, default value is 500.\n");
     printf("    --retries: number of times to scan\n");
@@ -27,7 +28,7 @@ void program_usage(){
 
     printf("\n");
 
-    printf(GREEN "[*]" RESET_COLOR " Optional Nmap Flags (type after --nmap option):\n");
+    printf(GREEN "[*]" RESET_COLOR " Optional Nmap Flags, --nmap [OPTIONS]:\n");
     printf("    -sS: TCP SYN\n");
     printf("    -sC: Run default scripts\n");
     printf("    -sV: Version detection\n");

@@ -16,4 +16,9 @@ int validate_values(char **ip, int *start_port, int *end_port, int *retries, int
 
 int calculate_batch_size(int total_ports);
 
+int get_linux_distro(char *return_name);
+int check_nmap();
+int install_nmap(char *distro_name);
+
+
 #endif

@@ -8,6 +8,74 @@
 #include "messages.h" // program_usage()
 #include "global_vars.h"
 
+int get_linux_distro(char *return_name){
+    FILE *f = fopen("/etc/os-release", "r");
+    if (!f){
+        printf( BRIGHT_RED "[!]" RESET_COLOR "Couldn't open /etc/os-release");
+        return 1;
+    }
+
+    char line[128];
+    while(fgets(line, sizeof(line),f )){
+        if(strncmp(line, "ID=", 3) == 0){
+            char *distro_name = line + 3;
+            distro_name[strcspn(distro_name, "\n")] = '\0';
+            strcpy(return_name, distro_name);
+            printf( BRIGHT_GREEN "[*]" RESET_COLOR " Detected %s\n", distro_name);
+        }
+    }
+    return 0;
+}
+
+int install_nmap(char *distro_name){
+    printf( BRIGHT_GREEN "[*]" RESET_COLOR " Installing nmap...\n\n");
+    if (strcmp(distro_name, "arch") == 0 || strcmp(distro_name, "manjaro") == 0){
+        system("sudo pacman -S nmap");
+    }
+    else if (strcmp(distro_name, "ubuntu") == 0 ||
+             strcmp(distro_name, "debian") == 0 || 
+             strcmp(distro_name, "linuxmint") == 0){
+        system("sudo apt install nmap");
+    }
+    else if (strcmp(distro_name, "fedora") == 0){
+        system("sudo dnf install nmap");
+    }
+    else{
+        printf( BRIGHT_RED "[!]" RESET_COLOR " Unsupported linux distribution.\n");
+        return 1;
+    }
+    return 0;
+}
+
+int check_nmap(){
+    char cmd[32] = "which nmap > /dev/null 2>&1\n";
+    
+    char answer;
+    if(system(cmd) != 0){
+        printf( BRIGHT_RED "[!]" RESET_COLOR " Nmap is not detected, would you like to install it now? [Y/n] ");
+        scanf(" %c", &answer);
+        
+        printf("\n");
+
+        if (answer == 'n' || answer == 'N')
+            return 1;
+        else if (answer == 'y' || answer == 'Y'){
+            char linux_distro[128];
+            if (get_linux_distro(linux_distro) == 1){
+                return 1;
+            }
+            if (install_nmap(linux_distro) == 1)
+                return 1;
+            return 0;
+        }
+        else{
+            printf( BRIGHT_RED "[!]" RESET_COLOR " Unrecognized option.\n");
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int validate_ip(const char *ip) {
     regex_t regex;
     int regRes;
