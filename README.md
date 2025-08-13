@@ -55,9 +55,3 @@ To install run `dpkg -i <downloaded file>`
 ```
 dpkg -i ./zeroscan_1.4.0.deb
 ```
-
-## 📝 Notes
-- Scans only TCP ports, no UDP
-- Default number of threads is set to 200, however if you wish to change use `--threads`/`-t` option
-- It is recommended to use `--retries` option during default scanning (without `--long` option) to reduce chance of false failed ports which may be open.
-Scans target 1 time by default but it may skip some ports. Scanning with `--long NUM` increases reliability 
