@@ -26,7 +26,10 @@ Port scanner written in C
 
 ## ❗ Requirements
 
-If you want to use `--nmap` option you need [nmap](https://nmap.org/) be installed, or install using ZeroScan when it prompts so 
+- Nmap if you want to use `--nmap` option, or install using ZeroScan when it prompts so, supported linux distributions:
+  - Arch Linux / Manjaro
+  - Debian / Ubuntu / Mint
+  - Fedora  
 
 ## 📥 Installation
 
