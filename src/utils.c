@@ -58,7 +58,7 @@ int check_nmap(){
         printf("\n");
 
         if (answer == 'n' || answer == 'N')
-            return 1;
+            return 0;
         else if (answer == 'y' || answer == 'Y'){
             char linux_distro[128];
             if (get_linux_distro(linux_distro) == 1){
