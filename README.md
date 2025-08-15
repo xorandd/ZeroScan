@@ -49,7 +49,7 @@ Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/rel
 Checksum example
 
 ```
-$ echo '7dd918a914bad05520bee099d13a604911921c6a5e65d22107ec87ee06549d00' ./zeroscan_1.5.21.deb | sha256sum -c
+echo '7dd918a914bad05520bee099d13a604911921c6a5e65d22107ec87ee06549d00' ./zeroscan_1.5.21.deb | sha256sum -c
 ./zeroscan_1.5.21.deb: OK
 ```
 
