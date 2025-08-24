@@ -12,7 +12,7 @@ Port scanner written in C
 ## ✨ Features
 - Shows opened ports in real-time
 - Host pinging before scannning
-- Scans top 1000 ports if no ports are included (top_1000_ports.h)
+- Scans top 1000 ports if no ports are included (list of top ports is in the [top_1000_ports.h](src/top_1000_ports.h))
 - Doesn't ping target if not needed (`--no-ping`)
 - Support multi-threading with partial asynchronous feature (`-t`, `--threads` option to set number of threads)
 - Supports rescanning failed ports up to 3 times (`--long` option)
@@ -49,12 +49,12 @@ Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/rel
 Checksum example
 
 ```
-echo '7dd918a914bad05520bee099d13a604911921c6a5e65d22107ec87ee06549d00' ./zeroscan_1.5.21.deb | sha256sum -c
-./zeroscan_1.5.21.deb: OK
+echo 'edd77805dcf928cdb734024d5e400375d53c545fdc5639726fc67e8b8eca5ad5' ./zeroscan_1.5.3.deb | sha256sum -c
+./zeroscan_1.5.3.deb: OK
 ```
 
 To install run `dpkg -i <downloaded file>`
 
 ```
-dpkg -i ./zeroscan_1.4.0.deb
+dpkg -i ./zeroscan.deb
 ```
