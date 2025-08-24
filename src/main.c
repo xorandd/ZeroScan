@@ -24,7 +24,7 @@ int main(int argc, char* argv[]){
     int is_ping = 1;
     int is_top_ports = 0;
     int nmap_flags_size = sizeof(nmap_flags);
-    char version_number[6] = "1.5.2";
+    char version_number[6] = "1.5.3";
 
     if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)){
         program_usage();
@@ -71,20 +71,29 @@ int main(int argc, char* argv[]){
     // --- Scan target ----
     printf( GREEN "\n[*]" RESET_COLOR " Scanning %s\n\n", ip);
 
+    // if no '-p' option eg 'zeroscan 10.10.10.10'
     if (is_top_ports){
         while(retries > 0){
             threads_for_scanning_top_ports(ip, num_threads, is_long_scanning);    
             retries--;
         }
     }
-    else {
+    // if port(-s) are specified
+    else 
+    {
         while(retries > 0){
             threads_for_scanning(ip, start_port, end_port, num_threads, is_long_scanning);    
             retries--;
         }
     }
+    
     if (is_nmap){
         start_nmap_scan(ip);
     }
+    
+    if (ip){
+        free(ip);
+    }
+
     return 0;
 }

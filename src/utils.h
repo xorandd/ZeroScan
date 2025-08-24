@@ -20,5 +20,6 @@ int get_linux_distro(char *return_name);
 int check_nmap();
 int install_nmap(char *distro_name);
 
+int domain_to_ip(const char *domain, char *ipv4, size_t buffer_size);
 
 #endif

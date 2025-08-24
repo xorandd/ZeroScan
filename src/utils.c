@@ -8,6 +8,34 @@
 #include "messages.h" // program_usage()
 #include "global_vars.h"
 
+int domain_to_ip(const char *domain, char *ipv4, size_t buffer_size){
+    char cmd[128];
+    snprintf(cmd, sizeof(cmd), "getent ahostsv4 %s | head -n1 | cut -d' ' -f1 2>/dev/null", domain);
+
+    FILE *fp = popen(cmd, "r");
+    if (fp == NULL){
+        // printf(BRIGHT_RED "[!]" RESET_COLOR " Failed to execute popen()");
+        return 1;
+    }
+
+    if (fgets(ipv4, buffer_size, fp) != NULL){
+        size_t ip_length = strlen(ipv4);
+        if (ip_length > 0 && ipv4[ip_length - 1] == '\n'){
+            ipv4[ip_length - 1] = '\0';
+        }
+        else{
+            //printf("No IP resolved, check domain");
+            return 1;
+        }
+    }
+    else{
+        //printf("Failed to read from popen()\n");
+        return 1;
+    }
+    pclose(fp);
+    return 0;
+}
+
 int get_linux_distro(char *return_name){
     FILE *f = fopen("/etc/os-release", "r");
     if (!f){
@@ -89,9 +117,9 @@ int validate_ip(const char *ip) {
     regfree(&regex);
 
     if (regRes == 0) {
-        return 1; //valid ip
+        return 0; //valid ip
     } else {
-        return 0; //invalid ip
+        return 1; //invalid ip
     }
 }
 
@@ -99,8 +127,12 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
     int is_port_option = 0;
 
     for (int i = 1; i < argc; i++){
-        if (validate_ip(argv[i])){
-            *ip = argv[i];
+        char ip_buffer[32];
+        if (validate_ip(argv[i]) == 0){
+            *ip = strdup(argv[i]);
+        }
+        else if (domain_to_ip(argv[i], ip_buffer, sizeof(ip_buffer)) == 0){
+            *ip = strdup(ip_buffer);
         }
         else if (strcmp(argv[i], "-p") == 0 && i+1 < argc){
             char *range_str = argv[++i];
@@ -153,8 +185,9 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
     }
     return 0;
 }
+
 int validate_values(char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_top_ports){
-    if (!(*ip) || validate_ip(*ip) != 1){
+    if (!(*ip) || validate_ip(*ip) != 0){
         printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Incorrect or missing IP format.\n");
         program_usage();
         return 1;
