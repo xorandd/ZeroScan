@@ -46,13 +46,6 @@ Move compiled binary to `/usr/local/bin` if you want it to run anywhere in termi
 
 Download `.deb` package from  [releases](https://github.com/xorandd/ZeroScan/releases)
 
-Checksum example
-
-```
-echo 'edd77805dcf928cdb734024d5e400375d53c545fdc5639726fc67e8b8eca5ad5' ./zeroscan_1.5.3.deb | sha256sum -c
-./zeroscan_1.5.3.deb: OK
-```
-
 To install run `dpkg -i <downloaded file>`
 
 ```
