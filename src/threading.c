@@ -19,10 +19,12 @@ void *thread_call_scan_ports(void *arg){
 void threads_for_scanning(const char *ip, int start_port, int end_port, int num_threads, int is_long_scanning){
     int total_ports = (end_port - start_port) + 1;
 
+    /*
     //to not create extra useless threads 
     if (num_threads > total_ports){
         num_threads = total_ports;
     }
+    */
 
     int chunk = (total_ports + num_threads-1) / num_threads;
 

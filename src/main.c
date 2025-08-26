@@ -15,6 +15,8 @@ int is_nmap = 0;
 char nmap_flags[256] = {0};
 
 int main(int argc, char* argv[]){
+    const char *version_number = "1.5.4";
+
     char *ip = NULL;
     int start_port = -1;
     int end_port = -1;
@@ -24,21 +26,21 @@ int main(int argc, char* argv[]){
     int is_ping = 1;
     int is_top_ports = 0;
     int nmap_flags_size = sizeof(nmap_flags);
-    char version_number[6] = "1.5.3";
 
     if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)){
         program_usage();
         return 0;
     }
-    
-    if(argc < 2 || argc > 11){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing \n");
-        return 1;
-    }
     else if(argc == 2 && (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0)){
         printf("ZeroScan %s\n", version_number);
         return 1;
     }
+
+    if(argc < 3 || argc > 17){
+        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing \n");
+        return 1;
+    }
+    
     
     startup_banner();
 
@@ -87,10 +89,12 @@ int main(int argc, char* argv[]){
         }
     }
     
+    // if --nmap option included, start nmap scan on found ports (scanner.c)
     if (is_nmap){
         start_nmap_scan(ip);
     }
     
+    // free ip after assigning it with strdup() in utils.c
     if (ip){
         free(ip);
     }

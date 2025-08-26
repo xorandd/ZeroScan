@@ -6,7 +6,7 @@
 #include <sys/select.h>
 #include <fcntl.h>
 #include <string.h>
-#include "scanner.h"        // scan_ports()
+#include "scanner.h"
 #include "utils.h"          // min()
 #include "top_1000_ports.h" // top_ports[1000]
 #include "colors.h"
@@ -99,6 +99,7 @@ int scan_ports(const char *ip, int start_port, int end_port, int is_long_scannin
     return 0;
 }
 
+// if no '-p' or '--ports' options are specified, scan top 1000 ports from top_1000_ports.h
 int scan_top_ports(const char *ip, int starting_index, int ending_index, int is_long_scanning){
     struct sockaddr_in addr;
     fd_set write_fds;

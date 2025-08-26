@@ -16,12 +16,14 @@ LIGHT_GRAY "---------------------------------------------\n" RESET_COLOR
 }
 
 void program_usage(){
+    // 17 arguments MAX (apart of -v, -h)
     printf( GREEN "[*]" RESET_COLOR " Options:\n");
     printf("    -v, --version: show version number\n");
+    printf("    -a, --address: target's ip address / hostname");
     printf("    -p: port(s) to scan (single port or range (see example))\n");
     printf("    -t, --threads: number of concurrent threads, default value is 500.\n");
     printf("    --retries: number of times to scan\n");
-    printf("    --long: retry failed scanned ports up to 3 times\n");
+    printf("    --long: scan target up to 3 times\n");
     printf("    --no-ping: doesn't ping target. Can be useful if ICMP is disabled (like with windows firewall by default)\n");
     printf("    --nmap: run nmap with optional flags\n");
     printf("    -h, --help: show help menu\n");
