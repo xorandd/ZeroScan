@@ -36,12 +36,4 @@ void program_usage(){
     printf("    -sV: Version detection\n");
     printf("    -A: Agressive scan. Enable OS detection, version detection, script scanning, and traceroute\n");
     printf("    -T<0-5>: 'Paranoid - 0', 'Sneaky - 1', 'Polite - 2', 'Normal - 3', 'Aggressive - 4', 'Insane - 5'\n");
-
-    printf("\n");
-
-    printf( GREEN "[*]" RESET_COLOR " Usage example:\n");
-    printf("    zeroscan 127.0.0.1 -p 1-1000\n");
-    printf("    zeroscan 127.0.0.1 -p 3306 --retries 2\n");
-    printf("    zeroscan 127.0.0.1 -p 5000 --long --threads 200 --no-ping\n");
-    printf("    zeroscan 127.0.0.1 --nmap -A -T4\n");
 }
