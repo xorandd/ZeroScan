@@ -16,7 +16,6 @@ Port scanner written in C
 - Doesn't ping target if not needed (`--no-ping`)
 - Support multi-threading with partial asynchronous feature (`-t`, `--threads` option to set number of threads)
 - Supports rescanning failed ports up to 3 times (`--long` option)
-- Allows to scan target multiple times, depends on user's input (`--retries` option)
 - Allows to run nmap with following options (`--nmap <OPTIONS>`):
   - sS
   - sC
