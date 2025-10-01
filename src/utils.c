@@ -125,7 +125,7 @@ int domain_to_ip(const char *domain, char *ipv4, size_t buffer_size){
     return 1;
 }
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports, int *nmap_flags_size){
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports, int *nmap_flags_size){
     int is_port_option = 0;
     for (int i = 1; i < argc; i++){
         char ip_buffer[32];
@@ -150,9 +150,6 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
         }
         else if((strcmp(argv[i], "-t") == 0 || strcmp(argv[i], "--threads") == 0) && i+1 < argc){
             *num_threads = atoi(argv[++i]);
-        }
-        else if (strcmp(argv[i], "--retries") == 0 && i+1 < argc){
-            *retries = atoi(argv[++i]);
         }
         else if (strcmp(argv[i], "--long") == 0){
             *is_long_scanning = 1;
@@ -189,7 +186,7 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
     return 0;
 }
 
-int validate_values(char **ip, int *start_port, int *end_port, int *retries, int *num_threads, int *is_top_ports){
+int validate_values(char **ip, int *start_port, int *end_port, int *num_threads, int *is_top_ports){
     if (!(*ip) || validate_ip(*ip) != 0){
         printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Incorrect or missing IP format.\n");
         program_usage();
@@ -215,11 +212,6 @@ int validate_values(char **ip, int *start_port, int *end_port, int *retries, int
 
     if (*num_threads <= 0){
         printf( BRIGHT_RED "[!]" RESET_COLOR "ERROR. Num of threads cant be 0 or less\n");
-        return 1;
-    }
-    
-    if (*retries <= 0){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. --retries can't be negative");
         return 1;
     }
     return 0;

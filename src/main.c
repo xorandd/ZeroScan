@@ -15,12 +15,11 @@ int is_nmap = 0;
 char nmap_flags[256] = {0};
 
 int main(int argc, char* argv[]){
-    const char *version_number = "1.5.4";
+    const char *version_number = "1.5.5";
 
     char *ip = NULL;
     int start_port = -1;
     int end_port = -1;
-    int retries = 1;
     int num_threads = 200; // By default
     int is_long_scanning = 0;
     int is_ping = 1;
@@ -36,8 +35,8 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    if(argc < 3 || argc > 17){
-        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing \n");
+    if(argc < 3 || argc > 15){
+        printf( BRIGHT_RED "[!]" RESET_COLOR " ERROR. Some arguments are missing/too much arguments given \n");
         return 1;
     }
     
@@ -49,12 +48,12 @@ int main(int argc, char* argv[]){
         return 1;
 
     // ---- Assigning ----
-    if (assign_values(argc, argv, &ip, &start_port, &end_port, &retries, &num_threads, &is_long_scanning, 
+    if (assign_values(argc, argv, &ip, &start_port, &end_port, &num_threads, &is_long_scanning, 
                       &is_ping, &is_top_ports, &nmap_flags_size) == 1)
         return 1;
     
     // ---- Validations ----
-    if (validate_values(&ip,&start_port,&end_port,&num_threads,&retries, &is_top_ports) == 1)
+    if (validate_values(&ip,&start_port,&end_port,&num_threads, &is_top_ports) == 1)
         return 1;
     
     // check if single port entered
@@ -74,30 +73,19 @@ int main(int argc, char* argv[]){
     printf( GREEN "\n[*]" RESET_COLOR " Scanning %s\n\n", ip);
 
     // if no '-p' option eg 'zeroscan 10.10.10.10'
-    if (is_top_ports){
-        while(retries > 0){
-            threads_for_scanning_top_ports(ip, num_threads, is_long_scanning);    
-            retries--;
-        }
-    }
+    if (is_top_ports)
+        threads_for_scanning_top_ports(ip, num_threads, is_long_scanning);    
     // if port(-s) are specified
     else 
-    {
-        while(retries > 0){
-            threads_for_scanning(ip, start_port, end_port, num_threads, is_long_scanning);    
-            retries--;
-        }
-    }
+        threads_for_scanning(ip, start_port, end_port, num_threads, is_long_scanning);    
     
     // if --nmap option included, start nmap scan on found ports (scanner.c)
-    if (is_nmap){
+    if (is_nmap)
         start_nmap_scan(ip);
-    }
     
     // free ip after assigning it with strdup() in utils.c
-    if (ip){
+    if (ip)
         free(ip);
-    }
 
     return 0;
 }
