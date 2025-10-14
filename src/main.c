@@ -10,26 +10,27 @@
 #include "scanner.h"   // start_nmap_scan()
 
 int is_single_port = 0;
-
-int is_nmap = 0;
 char nmap_flags[256] = {0};
 
 int main(int argc, char* argv[]){
     const char *version_number = "1.5.5";
 
-    char *ip = NULL;
-    int start_port = -1;
-    int end_port = -1;
-    int num_threads = 200; // By default
-    int is_long_scanning = 0;
-    int is_ping = 1;
-    int is_top_ports = 0;
+    char *ip = NULL;            // -a --address option
+    int start_port = -1;        // -p option
+    int end_port = -1;          // -p option
+    int num_threads = 200;      // By default, can be changed using -t --threads option
+    int is_long_scanning = 0;   // --long
+    int is_ping = 1;            // 1 means program will ping target before scanning, can be changed using --no-ping option
+    int is_top_ports = 0;       // 0 means user used -p option 
+    int is_nmap = 0;            // 0 -> user used --nmap <ARGS> option
     int nmap_flags_size = sizeof(nmap_flags);
 
+    // print help menu if -h --help option used
     if(argc == 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0)){
         program_usage();
         return 0;
     }
+    // print version if -v --version option used
     else if(argc == 2 && (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0)){
         printf("ZeroScan %s\n", version_number);
         return 1;
@@ -49,7 +50,7 @@ int main(int argc, char* argv[]){
 
     // ---- Assigning ----
     if (assign_values(argc, argv, &ip, &start_port, &end_port, &num_threads, &is_long_scanning, 
-                      &is_ping, &is_top_ports, &nmap_flags_size) == 1)
+                      &is_ping, &is_top_ports, &is_nmap, &nmap_flags_size) == 1)
         return 1;
     
     // ---- Validations ----

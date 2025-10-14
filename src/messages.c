@@ -16,7 +16,7 @@ LIGHT_GRAY "---------------------------------------------\n" RESET_COLOR
 }
 
 void program_usage(){
-    // 17 arguments MAX (apart of -v, -h)
+    // 15 arguments MAX (apart of -v, -h)
     printf( GREEN "[*]" RESET_COLOR " Options:\n");
     printf("    -v, --version: show version number\n");
     printf("    -a, --address: target's ip address / hostname\n");

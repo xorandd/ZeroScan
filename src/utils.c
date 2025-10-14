@@ -125,7 +125,7 @@ int domain_to_ip(const char *domain, char *ipv4, size_t buffer_size){
     return 1;
 }
 
-int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports, int *nmap_flags_size){
+int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_port, int *num_threads, int *is_long_scanning, int *is_ping, int *is_top_ports, int *is_nmap, int *nmap_flags_size){
     int is_port_option = 0;
     for (int i = 1; i < argc; i++){
         char ip_buffer[32];
@@ -158,7 +158,7 @@ int assign_values(int argc, char *argv[], char **ip, int *start_port, int *end_p
             *is_ping = 0;
         }
         else if (strcmp(argv[i], "--nmap") == 0){
-            is_nmap = 1;
+            *is_nmap = 1;
             
             for (int j = i + 1; j < argc; j++){
                 if (strcmp(argv[j], "-p") == 0 || strcmp(argv[j], "-t") == 0 || strcmp(argv[j], "--threads") == 0 || 
