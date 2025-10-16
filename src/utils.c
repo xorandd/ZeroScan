@@ -15,7 +15,7 @@
 int get_linux_distro(char *return_name){
     FILE *f = fopen("/etc/os-release", "r");
     if (!f){
-        printf( BRIGHT_RED "[!]" RESET_COLOR "Couldn't open /etc/os-release");
+        printf( BRIGHT_RED "[!]" RESET_COLOR "Couldn't open /etc/os-release\n");
         return 1;
     }
 
@@ -28,6 +28,7 @@ int get_linux_distro(char *return_name){
             printf( BRIGHT_GREEN "[*]" RESET_COLOR " Detected %s\n", distro_name);
         }
     }
+    fclose(f);
     return 0;
 }
 
