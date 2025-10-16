@@ -11,12 +11,10 @@ Port scanner written in C
 
 ## ✨ Features
 - Shows opened ports in real-time
-- Host pinging before scannning
-- Scans top 1000 ports if no ports are included (list of top ports is in the [top_1000_ports.h](src/top_1000_ports.h))
-- Doesn't ping target if not needed (`--no-ping`)
-- Support multi-threading with partial asynchronous feature (`-t`, `--threads` option to set number of threads)
-- Supports rescanning failed ports up to 3 times (`--long` option)
-- Allows to run nmap with following options (`--nmap <OPTIONS>`):
+- Scans top 1000 ports if no ports are included
+- Support multi-threading with partial asynchronous feature
+- Supports rescanning failed ports up to 3 times
+- Allows to run nmap with following options
   - sS
   - sC
   - sV
@@ -26,9 +24,9 @@ Port scanner written in C
 ## ❗ Requirements
 
 - Nmap if you want to use `--nmap` option, or install using ZeroScan when it prompts so, supported linux distributions:
-  - Arch Linux / Manjaro
-  - Debian / Ubuntu / Mint
-  - Fedora  
+  - Arch
+  - Debian
+  - Fedora 
 
 ## 📥 Installation
 
