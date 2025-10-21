@@ -6,7 +6,6 @@
 #include "scanner.h"   // scan_ports()
 
 // ---- For ranged ports ----
-
 void *thread_call_scan_ports(void *arg){
     //thread_args points to the passed values
     //casting pointer to the thread_args type
@@ -50,7 +49,6 @@ void threads_for_scanning(const char *ip, int start_port, int end_port, int num_
 }
 
 // ---- For top 1000 ports ----
-
 void *thread_call_scan_top_ports(void *arg){
     thread_args_top_ports *args = (thread_args_top_ports*) arg; 
     scan_top_ports(args->ip, args->starting_index, args->ending_index, args->is_long_scanning);
@@ -60,10 +58,12 @@ void *thread_call_scan_top_ports(void *arg){
 void threads_for_scanning_top_ports(const char *ip, int num_threads, int is_long_scanning){
     int total_ports = 1000;
 
+    /*
     //to not create extra useless threads 
     if (num_threads > total_ports){
         num_threads = total_ports;
     }
+    */
 
     int chunk = (total_ports + num_threads-1) / num_threads;
 
